@@ -1,0 +1,122 @@
+{
+  "artifact_version": "SAI-CARE-control-v4",
+  "abstraction": "4 roles, 4 operations, 2 phases, 11 task labels, 4 risk labels, 2 statuses, 4 Boolean predicates; consistency filtered",
+  "well_formed_states": 8848,
+  "rule_counts": {
+    "R1": 3248,
+    "R2": 4000,
+    "R3": 800,
+    "R4": 400,
+    "R5": 192,
+    "R6": 88,
+    "R7": 8,
+    "R8": 56,
+    "R9": 24,
+    "R10": 32,
+    "R11": 0
+  },
+  "violations": {
+    "first_match": 0,
+    "determinism": 0,
+    "I2": 0,
+    "R9_owner_execute": 0,
+    "caregiver_R10_edit": 0,
+    "high_risk_precedence": 0
+  },
+  "risk_strengthening_pairs": 4256,
+  "fixtures": [
+    {
+      "case": "C1",
+      "result": "PASS"
+    },
+    {
+      "case": "C2",
+      "result": "PASS"
+    },
+    {
+      "case": "C3",
+      "result": "PASS"
+    },
+    {
+      "case": "C4",
+      "result": "PASS"
+    },
+    {
+      "case": "C5",
+      "result": "PASS"
+    },
+    {
+      "case": "C6",
+      "result": "PASS"
+    },
+    {
+      "case": "C7",
+      "result": "PASS"
+    },
+    {
+      "case": "C8",
+      "result": "PASS"
+    },
+    {
+      "case": "C9",
+      "result": "PASS"
+    },
+    {
+      "case": "C10",
+      "result": "PASS"
+    },
+    {
+      "case": "C11",
+      "result": "PASS"
+    },
+    {
+      "case": "C12",
+      "result": "PASS"
+    },
+    {
+      "case": "C13",
+      "result": "PASS"
+    },
+    {
+      "case": "C14",
+      "result": "PASS"
+    },
+    {
+      "case": "C15",
+      "result": "PASS"
+    },
+    {
+      "case": "C16",
+      "result": "PASS"
+    },
+    {
+      "case": "C17",
+      "result": "PASS"
+    },
+    {
+      "case": "C18",
+      "result": "PASS"
+    },
+    {
+      "case": "C19",
+      "result": "PASS"
+    },
+    {
+      "case": "C20",
+      "result": "PASS"
+    },
+    {
+      "case": "C21",
+      "result": "PASS"
+    },
+    {
+      "case": "C22",
+      "result": "PASS"
+    },
+    {
+      "case": "C23",
+      "result": "PASS"
+    }
+  ],
+  "scope": "Pure policy enumeration and synchronous in-memory control fixtures. Assessments and semantic verdicts scripted. No real LLM, clinical data, durable store, concurrency or network transport."
+}
