@@ -1,100 +1,56 @@
-SAI-CARE-control-v4 — bounded executable verification
+# Supplementary material — From Prompt to Policy
 
-Run with Python 3.10+ (standard library only), from the source directory:
-    python3 verification/verify.py
-No network access, API key, patient data, or external package is required.
-The command exits nonzero on an assertion failure and rewrites verification/results.json.
+This repository accompanies the paper **“From Prompt to Policy: Controlling LLM Transformations in Healthcare Communication”**, submitted to the SAI-CARE 2026 workshop. It provides the supplementary document and an executable artifact for inspecting and reproducing the paper's bounded verification results. The repository is provided anonymously for peer review.
 
-Files
-policy.py: immutable state and decision records, intake constraints, ordered rules,
-           finite-state enumeration. This is the policy abstraction, not a classifier.
-control.py: synchronous in-memory compiler, scripted model candidate, validation gates,
-            version-bound digest approval, author attribution, audit and release stubs.
-verify.py: exhaustive bounded checks plus 23 fixture groups, with multiple subcases.
-results.json: actual output produced for this revision.
+## Start here
 
-Domain
-4 actors × 4 operations × 2 phases × 11 task labels × 4 risk labels × 2 statuses
-× 2^4 Boolean predicate valuations = 45,056 raw tuples.
-Four Boolean dimensions: scope prohibition, scope resolution, readiness metadata,
-and professional route configuration. Consistency filtering leaves 8,848 states:
-- NA iff operation is not transform;
-- unknown task implies uncertain status;
-- transformation with unassessed risk implies uncertain status;
-- non-transformations use resolved status;
-- owner requests use execute only.
-Permission and readiness predicates are abstract inputs. Both prohibited and resolved
-may be true: a resolved permission can be a denial. Concrete documents, delegation
-credentials, identities, histories and service configurations are not enumerated.
-Rule counts retain route true/false even where the route is irrelevant; do not treat
-counts as frequencies of real requests. They differ from the 8,736 in the review notes
-because the notes do not define the same enumeration and consistency constraints.
+**[Read the supplementary material (PDF)](./Supplementary%20Material.pdf)**
 
-Observed result
-8,848 returned decisions; 10 reachable terminal rules; R11 has zero matches.
-R1..R11: 3248, 4000, 800, 400, 192, 88, 8, 56, 24, 32, 0.
-Zero first-match discrepancies, repeat-evaluation discrepancies, I2 routing violations,
-non-owner/non-execute R9 states, or caregiver R10 states other than editing.
-4,256 low/moderate-to-high strengthening pairs all select R1.
-23/23 fixture groups pass. This is not a statistical performance estimate.
+The supplementary document explains the verification abstraction, the enumerated state space, the control-path fixtures, reproduction instructions, and the scope and limitations of the checks. The main paper presents the architecture, policy rules, invariants, and conformance cases C1–C23; the supplement provides additional detail on how selected control properties are checked.
 
-Interpretation and limits
-The predicate-list comparison checks transcription and order; it is not an independent
-proof of the intended requirements. Determinism concerns fixed structured inputs,
-not repeated assessments of natural-language requests. I2 enumeration verifies the
-policy routing implication; selected fixtures additionally observe no model calls.
+## What this artifact demonstrates
 
-Model outputs, assessment labels and semantic verdicts are scripted. In C19 the actual
-selected source contains an injection string, but the injection verdict is supplied by
-the fixture: only control-path containment is tested, not attack detection. Source
-strings are placed in a data field; no real model receives or interprets them.
-Derived parameters use versioned-item handles (default z1); preferences use pref:key
-handles and metadata explicit item handles. All channels apply B minus X; the prototype does not
-implement a real extractor or a complete derivation graph. Source versions and consent
-snapshots are simplified. Flag evidence is a supplied reviewer verdict, not verified
-semantic entailment. No GUI tests patient or clinician comprehension.
+The paper proposes a policy-controlled architecture for LLM-assisted healthcare communication. It separates permission to process information from authority to release a resulting communication, and makes approval depend on the exact recipient-visible artifact, its provenance, recipients, and scope.
 
-Journal and transport are in-memory stubs. Mutation hooks represent interstage changes
-synchronously; they do not test concurrency, durable transactions, crash recovery,
-network failure, retry protocols with third parties, or clinical quality. The dispatch
-map tests one stable delivery identifier and exact bundle binding. Production-grade
-identity, authorisation, canonicalisation and storage require separate implementations.
-Passing these fixtures cannot establish universal compliance with invariants I1–I8.
+The executable artifact makes the policy rules and selected lifecycle controls inspectable. It combines a finite policy-state enumeration with synthetic conformance fixtures covering input restrictions, validation gates, approval, and release. It uses structured inputs and scripted model outputs so that the control decisions can be reproduced without an external model or service.
 
-Regression subcases added in v4
-C2: both route modes and owner/model actors; fixed deployment-owned urgent-care message;
-    no source sentinel in that message, and no processing or dispatch.
-C5: finalised recipient-visible provenance included in the digest; detached approval
-    record excluded from its own hash; text/recipient/label changes invalidate approval;
-    audit failure publishes no approved labels. Successful dispatch preserves the bundle.
-C16: provenance mutation between check and dispatch blocks release, as do existing
-     version, scope and consent mutations. Repeated delivery ID still reconciles once.
-C21: exclusions independently cover sources, parameters, enabled preferences and metadata;
-     task-changing exclusions pause until reconfirmed; sentinel values do not leak.
-     Unexcluded unauthorised channels block, and authorised included channels survive.
-The number 23 counts fixture groups, not individual assertions or independent samples.
-Urgent-care wording is a synthetic deployment-configuration fixture, not medical advice
-or a clinically evaluated service configuration.
+## Package contents
 
-Traceability: what is checked, and what is not
-I1: C1/C5/C6/C8/C12/C14/C16/C20 check representative in-memory authority, bundle-binding
-    and dispatch paths. Identity services, real recipients and atomic distributed release
-    are not implemented. Finalisation is one synchronous operation, not a transaction test.
-I2: routing implication enumerated over all 8,848 states; C2/C11 observe no model calls.
-    Assessment accuracy and every possible runtime trace remain outside the check.
-I3: C1/C7/C9/C18/C20/C22 check scripted origin/lineage/flag/review gates; semantic truth
-    and faithful real-model transformation are not tested.
-I4: C3/C15/C17/C21/C23 check sample service gates and all represented compiler channels.
-    The item model does not implement a full derivation graph or production middleware.
-I5: C10 checks omission of a disabled setting; persistence, editing/deletion UI and
-    preference-store behaviour are not implemented.
-I6: C2/C7/C11/C13/C14/C19/C22 check selected no-dispatch paths. C19 supplies detection.
-I7: C13/C16 exercise unavailable-journal and dispatch-record stubs. Real durability,
-    crash recovery and transport acknowledgement are not tested.
-I8: C4/C17/C21 check pauses without inferred consent and explicit narrowing. Timers,
-    scheduled expiry and a production consent workflow are not implemented.
+| File | Purpose |
+| --- | --- |
+| [Supplementary Material.pdf](./Supplementary%20Material.pdf) | Supplementary document describing bounded executable verification, reproduction, and limitations. |
+| [verification/policy.py](./verification/policy.py) | State and decision records, well-formedness constraints, ordered policy rules, and finite-state enumeration. |
+| [verification/control.py](./verification/control.py) | Synchronous, in-memory prototype of input compilation, validation, provenance finalisation, artifact-bound approval, and release controls. |
+| [verification/verify.py](./verification/verify.py) | Executable bounded checks and the 23 conformance fixture groups C1–C23, including their subcases. |
+| [verification/results.json](./verification/results.json) | Recorded machine-readable verification results; regenerated when the verification script runs. |
+| [verification/README.txt](./verification/README.txt) | Detailed technical notes on the verification domain, fixture coverage, and assumptions. |
 
-Repeat evaluation is only a regression check on fixed input, not an independent proof.
-The ordered-predicate oracle shares the specification with the evaluator and is not an
-independent validation of the chosen policy requirements. Universal trace conformance,
-clinical validity and production readiness are not claimed.
+## Reproduce the results
+
+**Requirements:** Python 3.10 or later. Only the Python standard library is used; no additional packages, API keys, patient data, or network access are required to run the artifact.
+
+Download or clone this repository, open a terminal in the directory containing the `verification` folder, and run:
+
+```bash
+python3 verification/verify.py
+```
+
+The script exits with a nonzero status if an assertion fails and regenerates `verification/results.json`. To compare a new run with the supplied results, retain a copy of that file before running the script.
+
+The supplied results report:
+
+- **8,848 well-formed policy states**, obtained by filtering 45,056 raw combinations under the declared consistency constraints.
+- **10 reachable terminal rules**; the defensive fallback R11 is not reached within this domain.
+- **Zero violations in the reported checks**, including first-match consistency, repeat evaluation, selected authority and routing constraints, and high-risk precedence.
+- **4,256 risk-strengthening pairs**, all selecting R1 after strengthening the risk to high.
+- **23 of 23 conformance fixture groups passing**. Each group may contain multiple subcases.
+
+These counts describe the specified finite abstraction and synthetic fixtures. They are not estimates of real-world request frequencies or model performance.
+
+## Scope and interpretation
+
+The artifact checks selected control properties under explicit assumptions. Assessment labels, model outputs, and semantic validation verdicts are scripted. In particular, the prompt-injection fixture tests containment after a supplied detection verdict; it does not evaluate injection detection or the behaviour of a real LLM.
+
+The control prototype is synchronous and uses in-memory audit and delivery stubs. The checks do not establish clinical validity, semantic accuracy, production readiness, or universal conformance with all invariants across arbitrary executions. Distributed concurrency, durable storage, crash recovery, and real network delivery are outside the implemented abstraction.
+
+For the precise relationship between the checks and invariants I1–I8, see the [supplementary PDF](./Supplementary%20Material.pdf) and the [technical verification notes](./verification/README.txt).
