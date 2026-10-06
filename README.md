@@ -19,23 +19,23 @@ The executable artifact makes the policy rules and selected lifecycle controls i
 | File | Purpose |
 | --- | --- |
 | [Supplementary Material.pdf](./Supplementary%20Material.pdf) | Supplementary document describing bounded executable verification, reproduction, and limitations. |
-| [verification/policy.py](./policy.py) | State and decision records, well-formedness constraints, ordered policy rules, and finite-state enumeration. |
-| [verification/control.py](./control.py) | Synchronous, in-memory prototype of input compilation, validation, provenance finalisation, artifact-bound approval, and release controls. |
-| [verification/verify.py](./verify.py) | Executable bounded checks and the 23 conformance fixture groups C1–C23, including their subcases. |
-| [verification/results.json](./results.json) | Recorded machine-readable verification results; regenerated when the verification script runs. |
-| [verification/README.txt](./README.txt) | Detailed technical notes on the verification domain, fixture coverage, and assumptions. |
+| [policy.py](./policy.py) | State and decision records, well-formedness constraints, ordered policy rules, and finite-state enumeration. |
+| [control.py](./control.py) | Synchronous, in-memory prototype of input compilation, validation, provenance finalisation, artifact-bound approval, and release controls. |
+| [verify.py](./verify.py) | Executable bounded checks and the 23 conformance fixture groups C1–C23, including their subcases. |
+| [results.json](./results.json) | Recorded machine-readable verification results; regenerated when the verification script runs. |
+| [README.txt](./README.txt) | Detailed technical notes on the verification domain, fixture coverage, and assumptions. |
 
 ## Reproduce the results
 
 **Requirements:** Python 3.10 or later. Only the Python standard library is used; no additional packages, API keys, patient data, or network access are required to run the artifact.
 
-Download or clone this repository, open a terminal in the directory containing the `verification` folder, and run:
+Download or clone this repository, open a terminal and run:
 
 ```bash
-python3 verification/verify.py
+python3 verify.py
 ```
 
-The script exits with a nonzero status if an assertion fails and regenerates `verification/results.json`. To compare a new run with the supplied results, retain a copy of that file before running the script.
+The script exits with a nonzero status if an assertion fails and regenerates `results.json`. To compare a new run with the supplied results, retain a copy of that file before running the script.
 
 The supplied results report:
 
@@ -53,4 +53,4 @@ The artifact checks selected control properties under explicit assumptions. Asse
 
 The control prototype is synchronous and uses in-memory audit and delivery stubs. The checks do not establish clinical validity, semantic accuracy, production readiness, or universal conformance with all invariants across arbitrary executions. Distributed concurrency, durable storage, crash recovery, and real network delivery are outside the implemented abstraction.
 
-For the precise relationship between the checks and invariants I1–I8, see the [supplementary PDF](./Supplementary%20Material.pdf) and the [technical verification notes](./verification/README.txt).
+For the precise relationship between the checks and invariants I1–I8, see the [supplementary PDF](./Supplementary%20Material.pdf) and the [technical verification notes](./README.txt).
