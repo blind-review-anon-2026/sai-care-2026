@@ -19,11 +19,11 @@ The executable artifact makes the policy rules and selected lifecycle controls i
 | File | Purpose |
 | --- | --- |
 | [Supplementary Material.pdf](./Supplementary%20Material.pdf) | Supplementary document describing bounded executable verification, reproduction, and limitations. |
-| [verification/policy.py](./verification/policy.py) | State and decision records, well-formedness constraints, ordered policy rules, and finite-state enumeration. |
-| [verification/control.py](./verification/control.py) | Synchronous, in-memory prototype of input compilation, validation, provenance finalisation, artifact-bound approval, and release controls. |
-| [verification/verify.py](./verification/verify.py) | Executable bounded checks and the 23 conformance fixture groups C1–C23, including their subcases. |
-| [verification/results.json](./verification/results.json) | Recorded machine-readable verification results; regenerated when the verification script runs. |
-| [verification/README.txt](./verification/README.txt) | Detailed technical notes on the verification domain, fixture coverage, and assumptions. |
+| [verification/policy.py](./policy.py) | State and decision records, well-formedness constraints, ordered policy rules, and finite-state enumeration. |
+| [verification/control.py](./control.py) | Synchronous, in-memory prototype of input compilation, validation, provenance finalisation, artifact-bound approval, and release controls. |
+| [verification/verify.py](./verify.py) | Executable bounded checks and the 23 conformance fixture groups C1–C23, including their subcases. |
+| [verification/results.json](./results.json) | Recorded machine-readable verification results; regenerated when the verification script runs. |
+| [verification/README.txt](./README.txt) | Detailed technical notes on the verification domain, fixture coverage, and assumptions. |
 
 ## Reproduce the results
 
